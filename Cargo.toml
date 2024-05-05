@@ -1,0 +1,8 @@
+[package]
+name = "tick_handler"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+pulsar = "6.1.0"
+tokio = { version = "1.37.0", features = ["full"] }

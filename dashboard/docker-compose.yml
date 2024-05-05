@@ -1,0 +1,19 @@
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - 9000:9090
+    volumes:
+      - ./:/etc/prometheus/
+    command: --config.file=/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: streamnative/apache-pulsar-grafana-dashboard:latest
+    stdin_open: true
+    tty: true
+    ports:
+      - 3000:3000
+    environment:
+      - PULSAR_PROMETHEUS_URL=http://localhost:9090
+      - PULSAR_CLUSTER=standalone
+    restart: unless-stopped
