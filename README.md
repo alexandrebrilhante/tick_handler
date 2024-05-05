@@ -30,7 +30,7 @@ cargo build --release && cargo run --release
 
 #### Cassandra
 
-Ensure your Cassandra is setup:
+Ensure your Cassandra cluster is setup:
 
 ```bash
 CREATE KEYSPACE pulsar_test_keyspace WITH replication = {'class':'SimpleStrategy', 'replication_factor':1};
