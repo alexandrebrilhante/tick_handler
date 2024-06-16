@@ -2,7 +2,7 @@
 
 [![Rust](https://github.com/alexandrebrilhante/tick_handler/actions/workflows/rust.yml/badge.svg)](https://github.com/alexandrebrilhante/tick_handler/actions/workflows/rust.yml)
 
-This Rust application demonstrates how to set up an asynchronous Apache Pulsar producer that sends messages received from a TCP server and persists those same messages in Cassandra or PostgreSQL using a sink connector.
+This Rust application demonstrates how to set up an asynchronous Apache Pulsar producer that sends messages received from a TCP server and persists those same messages in Apache Cassandra or PostgreSQL using a sink connector.
 
 This project was built as a proof-of-concept for a low-latency market data feed handler.
 
