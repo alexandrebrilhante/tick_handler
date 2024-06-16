@@ -1,4 +1,5 @@
 use pulsar::{producer::ProducerOptions, Pulsar, TokioExecutor};
+use std::env;
 use std::error::Error;
 use tokio::{io::AsyncReadExt, net::TcpListener, sync::mpsc};
 
@@ -116,10 +117,11 @@ async fn handle_connection(mut socket: tokio::net::TcpStream, tx: mpsc::Sender<S
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    let addr: &str = "pulsar://localhost:6650";
+    let addr: &str = &env::var("PULSAR_ADDRESS").unwrap_or("pulsar://localhost:6650".to_string());
     let pulsar: Pulsar<TokioExecutor> = create_pulsar(addr).await?;
 
-    let topic_name: &str = "persistent://public/default/test";
+    let topic_name: &str =
+        &env::var("PULSAR_TOPIC").unwrap_or("persistent://public/default/test".to_string());
     let producer: pulsar::Producer<TokioExecutor> = create_producer(pulsar, topic_name).await?;
 
     let (tx, rx) = create_channel().await;
@@ -128,7 +130,9 @@ async fn main() -> Result<(), Box<dyn Error>> {
         send_messages(producer, rx).await;
     });
 
-    let listener: TcpListener = create_listener("127.0.0.1:9999").await?;
+    let tcp_socket: &str = &env::var("TCP_SOCKET").unwrap_or("127.0.0.1:9999".to_string());
+
+    let listener: TcpListener = create_listener(tcp_socket).await?;
 
     loop {
         let (socket, _addr) = listener
