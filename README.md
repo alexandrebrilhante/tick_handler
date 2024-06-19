@@ -10,7 +10,7 @@ This software comes bundled with a Grafana dashboard to observe the message queu
 
 ## Dependencies
 
-Ensure your `Cargo.toml` file includes dependencies for the `tokio` and `pulsar-rs` crates:
+Ensure your `Cargo.toml` file includes dependencies for the `pulsar-rs` and `tokio` crates:
 
 ```toml
 [dependencies]
@@ -30,14 +30,14 @@ cargo build --release && cargo run --release
 
 #### Cassandra
 
-Ensure your Cassandra cluster is setup:
+Ensure your Cassandra cluster is setup then start Apache Pulsar and the `tick_handler` executable:
 
 ```bash
-CREATE KEYSPACE pulsar_test_keyspace WITH replication = {'class':'SimpleStrategy', 'replication_factor':1};
+CREATE KEYSPACE pulsar_keyspace WITH replication = {'class':'SimpleStrategy', 'replication_factor':1};
 
-USE pulsar_test_keyspace;
+USE pulsar_keyspace;
 
-CREATE TABLE pulsar_test_table (key text PRIMARY KEY, col text);
+CREATE TABLE pulsar_cassandra_sink (key text PRIMARY KEY, col text);
 ````
 
 ```bash
@@ -45,31 +45,20 @@ pulsar-daemon start standalone
 
 docker run -d --rm --name=cassandra -p 9042:9042 cassandra:latest
 
-docker exec -ti cassandra cqlsh localhost
-
-CREATE KEYSPACE pulsar_test_keyspace WITH replication = {'class':'SimpleStrategy', 'replication_factor':1};
-
-USE pulsar_test_keyspace;
-
-CREATE TABLE pulsar_test_table (key text PRIMARY KEY, col text);
-
 pulsar-admin sinks create \
     --tenant public \
     --namespace default \
-    --name cassandra-test-sink \
+    --name cassandra-sink \
     --archive $PWD/pulsar/connectors/pulsar-io-cassandra-3.2.2.nar \
     --sink-config-file $PWD/pulsar/connectors/cassandra-sink.yml \
     --inputs test
-
 ```
 
 #### PostgreSQL
 
-Ensure your PostgreSQL database is setup:
+Ensure your PostgreSQL database is setup then start Apache Pulsar and the `tick_handler` executable:
 
 ```sql
-psql -U postgres postgres
-
 CREATE TABLE IF NOT EXISTS pulsar_postgres_jdbc_sink (
     id serial PRIMARY KEY,
     name TEXT NOT NULL
@@ -79,21 +68,12 @@ CREATE TABLE IF NOT EXISTS pulsar_postgres_jdbc_sink (
 ```bash
 pulsar-daemon start standalone
 
-docker pull postgres:12
-
-docker run -d -it --rm \
-    --name pulsar-postgres \
-    -p 5432:5432 \
-    -e POSTGRES_PASSWORD=postgres \
-    -e POSTGRES_USER=postgres \
-    postgres:latest
-
-pulsar-admin schemas upload pulsar-postgres-jdbc-sink-topic -f ./connectors/avro-schema
+pulsar-admin schemas upload postgres-sink-topic -f ./connectors/avro-schema
 
 pulsar-admin sinks create \
     --archive $PWD/pulsar/connectors/pulsar-io-jdbc-postgres-3.2.2.nar \
     --inputs test \
-    --name pulsar-postgres-jdbc-sink \
-    --sink-config-file $PWD/pulsar/connectors/pulsar-postgres-jdbc-sink.yaml \
+    --name postgres-sink \
+    --sink-config-file $PWD/pulsar/connectors/postgres-sink.yaml \
     --parallelism 1
 ```
