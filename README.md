@@ -43,7 +43,7 @@ CREATE TABLE pulsar_cassandra_sink (key text PRIMARY KEY, col text);
 ```bash
 pulsar-daemon start standalone
 
-docker run -d --rm --name=cassandra -p 9042:9042 cassandra:latest
+pulsar-admin schemas upload test -f ./connectors/avro-schema
 
 pulsar-admin sinks create \
     --tenant public \
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS pulsar_postgres_jdbc_sink (
 ```bash
 pulsar-daemon start standalone
 
-pulsar-admin schemas upload postgres-sink-topic -f ./connectors/avro-schema
+pulsar-admin schemas upload test -f ./connectors/avro-schema
 
 pulsar-admin sinks create \
     --archive $PWD/pulsar/connectors/pulsar-io-jdbc-postgres-3.2.2.nar \
