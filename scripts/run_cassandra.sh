@@ -2,7 +2,7 @@
 
 pulsar-daemon start standalone
 
-docker run -d --rm --name=cassandra -p 9042:9042 cassandra:latest
+pulsar-admin schemas upload test -f ./connectors/avro-schema
 
 pulsar-admin sinks create \
     --tenant public \
