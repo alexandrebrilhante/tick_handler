@@ -8,6 +8,6 @@ pulsar-admin sinks create \
     --tenant public \
     --namespace default \
     --name cassandra-sink \
-    --archive $PWD/pulsar/connectors/pulsar-io-cassandra-3.2.2.nar \
-    --sink-config-file $PWD/pulsar/connectors/cassandra-sink.yml \
+    --archive $PWD/pulsar/connectors/cassandra/pulsar-io-cassandra-3.2.2.nar \
+    --sink-config-file $PWD/pulsar/connectors/cassandra/cassandra-sink.yml \
     --inputs test

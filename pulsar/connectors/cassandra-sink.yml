@@ -1,6 +1,0 @@
-configs:
-    roots: "localhost:9042"
-    keyspace: "pulsar_keyspace"
-    columnFamily: "pulsar_cassandra_sink"
-    keyname: "key"
-    columnName: "col"
