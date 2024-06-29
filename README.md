@@ -43,7 +43,7 @@ CREATE TABLE pulsar_cassandra_sink (key text PRIMARY KEY, col text);
 ```bash
 pulsar-daemon start standalone
 
-pulsar-admin schemas upload test -f $PWD/pulsar/connectors/avro-schema
+pulsar-admin schemas upload $PULSAR_TOPIC_NAME -f $PWD/pulsar/connectors/schema.avsc
 
 pulsar-admin sinks create \
     --archive $PWD/pulsar/connectors/cassandra/pulsar-io-cassandra-3.2.2.nar \
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS pulsar_postgres_jdbc_sink (
 ```bash
 pulsar-daemon start standalone
 
-pulsar-admin schemas upload test -f $PWD/pulsar/connectors/avro-schema
+pulsar-admin schemas upload $PULSAR_TOPIC_NAME -f $PWD/pulsar/connectors/schema.avsc
 
 pulsar-admin sinks create \
     --archive $PWD/pulsar/connectors/postgres/pulsar-io-jdbc-postgres-3.2.2.nar \
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS pulsar_questdb_sink (
 ```bash
 pulsar-daemon start standalone
 
-pulsar-admin schemas upload test -f $PWD/pulsar/connectors/avro-schema
+pulsar-admin schemas upload $PULSAR_TOPIC_NAME -f $PWD/pulsar/connectors/schema.avsc
 
 pulsar-admin sinks create \
     --archive $PWD/pulsar/connectors/postgres/pulsar-io-jdbc-postgres-3.2.2.nar \
