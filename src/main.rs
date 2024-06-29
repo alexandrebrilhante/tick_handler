@@ -81,7 +81,7 @@ async fn send_messages(
     mut rx: mpsc::Receiver<String>,
 ) {
     while let Some(message) = rx.recv().await {
-        if let Err(e) = producer.send(message).await {
+        if let Err(e) = producer.send_non_blocking(message).await {
             eprintln!("Failed to send message to Pulsar; err = {:?}...", e);
         }
     }

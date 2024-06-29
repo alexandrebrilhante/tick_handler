@@ -43,15 +43,14 @@ CREATE TABLE pulsar_cassandra_sink (key text PRIMARY KEY, col text);
 ```bash
 pulsar-daemon start standalone
 
-pulsar-admin schemas upload test -f ./connectors/avro-schema
+pulsar-admin schemas upload test -f $PWD/pulsar/connectors/avro-schema
 
 pulsar-admin sinks create \
-    --tenant public \
-    --namespace default \
-    --name cassandra-sink \
     --archive $PWD/pulsar/connectors/cassandra/pulsar-io-cassandra-3.2.2.nar \
+    --inputs $PULSAR_TOPIC_NAME \
+    --name cassandra-sink \
     --sink-config-file $PWD/pulsar/connectors/cassandra/cassandra-sink.yml \
-    --inputs test
+    --parallelism 1
 ```
 
 #### PostgreSQL
@@ -68,11 +67,11 @@ CREATE TABLE IF NOT EXISTS pulsar_postgres_jdbc_sink (
 ```bash
 pulsar-daemon start standalone
 
-pulsar-admin schemas upload test -f ./connectors/avro-schema
+pulsar-admin schemas upload test -f $PWD/pulsar/connectors/avro-schema
 
 pulsar-admin sinks create \
     --archive $PWD/pulsar/connectors/postgres/pulsar-io-jdbc-postgres-3.2.2.nar \
-    --inputs test \
+    --inputs $PULSAR_TOPIC_NAME \
     --name postgres-sink \
     --sink-config-file $PWD/pulsar/connectors/postgres/postgres-sink.yaml \
     --parallelism 1
@@ -92,11 +91,11 @@ CREATE TABLE IF NOT EXISTS pulsar_questdb_sink (
 ```bash
 pulsar-daemon start standalone
 
-pulsar-admin schemas upload test -f ./connectors/avro-schema
+pulsar-admin schemas upload test -f $PWD/pulsar/connectors/avro-schema
 
 pulsar-admin sinks create \
     --archive $PWD/pulsar/connectors/postgres/pulsar-io-jdbc-postgres-3.2.2.nar \
-    --inputs test \
+    --inputs $PULSAR_TOPIC_NAME \
     --name questdb-sink \
     --sink-config-file $PWD/pulsar/connectors/questdb/questdb-sink.yaml \
     --parallelism 1

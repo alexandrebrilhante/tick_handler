@@ -2,12 +2,11 @@
 
 pulsar-daemon start standalone
 
-pulsar-admin schemas upload test -f ./connectors/avro-schema
+pulsar-admin schemas upload test -f $PWD/pulsar/connectors/avro-schema
 
 pulsar-admin sinks create \
-    --tenant public \
-    --namespace default \
-    --name cassandra-sink \
     --archive $PWD/pulsar/connectors/cassandra/pulsar-io-cassandra-3.2.2.nar \
+    --inputs $PULSAR_TOPIC_NAME \
+    --name cassandra-sink \
     --sink-config-file $PWD/pulsar/connectors/cassandra/cassandra-sink.yml \
-    --inputs test
+    --parallelism 1
