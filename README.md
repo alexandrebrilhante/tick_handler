@@ -1,6 +1,6 @@
 # tick_handler
 
-[![Rust](https://github.com/alexandrebrilhante/tick_handler/actions/workflows/rust.yml/badge.svg)](https://github.com/alexandrebrilhante/tick_handler/actions/workflows/rust.yml)
+[![Build](https://github.com/alexandrebrilhante/tick_handler/actions/workflows/build.yml/badge.svg)](https://github.com/alexandrebrilhante/tick_handler/actions/workflows/build.yml)
 
 This Rust application demonstrates how to set up an asynchronous Apache Pulsar producer that sends messages received from a TCP server and persists those same messages in Apache Cassandra, PostgreSQL or QuestDB using sink connectors.
 
@@ -10,7 +10,7 @@ This software comes bundled with a Grafana dashboard to observe the message queu
 
 ## Dependencies
 
-Ensure your `Cargo.toml` file includes dependencies for the `pulsar-rs` and `tokio` crates:
+Ensure your `Cargo.toml` file includes dependencies for the `pulsar` and `tokio` crates:
 
 ```toml
 [dependencies]
