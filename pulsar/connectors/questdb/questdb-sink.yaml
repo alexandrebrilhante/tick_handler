@@ -1,5 +1,5 @@
 configs:
   userName: "admin"
   password: "quest"
-  jdbcUrl: "jdbc:postgresql://localhost:5432/qdb"
+  jdbcUrl: "jdbc:postgresql://127.0.0.1:8812/qdb"
   tableName: "pulsar_questdb_sink"
